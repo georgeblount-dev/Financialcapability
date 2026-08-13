@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#f3efe8;font-family:-apple-system,system-ui,sans-serif}
+  a{color:#004b73}
+  a:hover{color:#002f4a}
+  @keyframes omFadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  ::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:48px 20px;box-sizing:border-box">
+  <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:15px;color:#004b73;letter-spacing:0.02em">nBalance <span style="color:#d56a2a">Financial</span> — Capability App</div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" hint-size="402px,874px">
+    <div style="height:100%;display:flex;flex-direction:column;background:#faf8f5;overflow:hidden">
+      <div style="flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch">
+
+        <sc-if value="{{isHome}}" hint-placeholder-val="{{ true }}">
+        <div style="padding:62px 20px 28px;animation:omFadeUp .4s ease both">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+            <div>
+              <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:26px;font-weight:700;color:#1e2a35">Hi, Guest</div>
+              <div style="font-size:13px;color:#8a95a0;margin-top:2px">Your financial wellness benefit</div>
+            </div>
+            <div style="width:40px;height:40px;border-radius:20px;background:#004b73;color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;font-family:'Source Serif Pro',Georgia,serif">G</div>
+          </div>
+
+          <div style="background:linear-gradient(135deg,#004b73,#002f4a);border-radius:24px;padding:26px 22px;color:#fff;box-shadow:0 12px 28px rgba(0,60,92,0.22);margin-bottom:18px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#bfe0ee;margin-bottom:14px">Financial Capacity Index</div>
+            <div style="display:flex;align-items:center;gap:20px">
+              <div style="width:104px;height:104px;border-radius:52px;background:conic-gradient(#d56a2a {{ latestReport.fciBarPct }}%, rgba(255,255,255,0.16) 0);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <div style="width:82px;height:82px;border-radius:41px;background:#00415f;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                  <div style="font-size:26px;font-weight:800;line-height:1">{{ latestReport.fciRounded }}</div>
+                  <div style="font-size:10px;color:#bfe0ee">/ 100</div>
+                </div>
+              </div>
+              <div style="flex:1;min-width:0">
+                <div style="display:inline-block;background:rgba(255,255,255,0.16);padding:5px 12px;border-radius:100px;font-size:12px;font-weight:600;margin-bottom:8px">{{ latestReport.label }}</div>
+                <div style="font-size:13px;line-height:1.5;color:#e6f0f5">Last assessed {{ latestReport.dateStr }}</div>
+              </div>
+            </div>
+            <button onClick="{{ viewLatestReport }}" style="margin-top:18px;width:100%;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.25);color:#fff;font-size:14px;font-weight:600;padding:12px;border-radius:12px;cursor:pointer">View full report</button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px">
+            <button onClick="{{ viewLatestReport }}" style="text-align:left;background:#fff;border:1px solid #eee2d4;border-radius:16px;padding:12px 10px;cursor:pointer">
+              <div style="width:8px;height:8px;border-radius:4px;background:#e11d48;margin-bottom:8px"></div>
+              <div style="font-size:11px;color:#8a95a0;margin-bottom:2px">Pressure</div>
+              <div style="font-size:16px;font-weight:700;color:#1e2a35">{{ latestReport.spsNormFixed }}</div>
+            </button>
+            <button onClick="{{ viewLatestReport }}" style="text-align:left;background:#fff;border:1px solid #eee2d4;border-radius:16px;padding:12px 10px;cursor:pointer">
+              <div style="width:8px;height:8px;border-radius:4px;background:#d97706;margin-bottom:8px"></div>
+              <div style="font-size:11px;color:#8a95a0;margin-bottom:2px">Friction</div>
+              <div style="font-size:16px;font-weight:700;color:#1e2a35">{{ latestReport.ffiNormFixed }}</div>
+            </button>
+            <button onClick="{{ viewLatestReport }}" style="text-align:left;background:#fff;border:1px solid #eee2d4;border-radius:16px;padding:12px 10px;cursor:pointer">
+              <div style="width:8px;height:8px;border-radius:4px;background:#047857;margin-bottom:8px"></div>
+              <div style="font-size:11px;color:#8a95a0;margin-bottom:2px">Agency</div>
+              <div style="font-size:16px;font-weight:700;color:#1e2a35">{{ latestReport.casScoreRounded }}%</div>
+            </button>
+          </div>
+
+          <div style="background:#fff;border:1px solid #eee2d4;border-radius:18px;padding:18px;margin-bottom:18px">
+            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#d56a2a;margin-bottom:8px">This week's focus</div>
+            <div style="font-size:15px;font-weight:700;color:#1e2a35;margin-bottom:4px">{{ latestReport.focusTitle }}</div>
+            <div style="font-size:13px;color:#5b6b76;line-height:1.5;margin-bottom:12px">{{ latestReport.focusDesc }}</div>
+            <button onClick="{{ goPlan }}" style="background:none;border:none;color:#004b73;font-size:13px;font-weight:700;padding:0;cursor:pointer">View action plan →</button>
+          </div>
+
+          <button onClick="{{ startAssessment }}" style="width:100%;background:#d56a2a;color:#fff;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 18px rgba(213,106,42,0.28)">Retake the assessment</button>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{isProgress}}" hint-placeholder-val="{{ false }}">
+        <div style="padding:62px 20px 28px;animation:omFadeUp .4s ease both">
+          <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:24px;font-weight:700;color:#1e2a35;margin-bottom:4px">Your progress</div>
+          <div style="font-size:13px;color:#8a95a0;margin-bottom:22px">{{ progressCopy }}</div>
+
+          <div style="background:#fff;border:1px solid #eee2d4;border-radius:18px;padding:18px 16px;margin-bottom:20px">
+            <div style="display:flex;align-items:flex-end;gap:14px;height:120px;padding:0 4px">
+              <sc-for list="{{ chartList }}" as="c" hint-placeholder-count="3">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:8px">
+                  <div style="font-size:12px;font-weight:700;color:#1e2a35">{{ c.fci }}</div>
+                  <div style="width:100%;max-width:34px;border-radius:8px 8px 3px 3px;background:{{ c.barColor }};height:{{ c.barHeight }}"></div>
+                  <div style="font-size:10px;color:#8a95a0">{{ c.shortDate }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#8a95a0;margin-bottom:10px">Past assessments</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ historyList }}" as="h" hint-placeholder-count="3">
+              <button onClick="{{ h.onTap }}" style="display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #eee2d4;border-radius:14px;padding:12px 14px;text-align:left;cursor:pointer">
+                <div style="width:40px;height:40px;border-radius:20px;background:#004b73;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0">{{ h.fci }}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:14px;font-weight:600;color:#1e2a35">{{ h.label }}</div>
+                  <div style="font-size:12px;color:#8a95a0">{{ h.dateStr }}</div>
+                </div>
+                <div style="color:#c7c0b3;font-size:16px">›</div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{isLearn}}" hint-placeholder-val="{{ false }}">
+        <div style="padding:62px 20px 28px;animation:omFadeUp .4s ease both">
+          <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:24px;font-weight:700;color:#1e2a35;margin-bottom:4px">Resources for you</div>
+          <div style="font-size:13px;color:#8a95a0;margin-bottom:20px">Guides and support, picked up from your last assessment.</div>
+
+          <div style="background:linear-gradient(135deg,#004b73,#002f4a);border-radius:18px;padding:18px;color:#fff;margin-bottom:20px">
+            <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#bfe0ee;margin-bottom:6px">Recommended for you</div>
+            <div style="font-size:16px;font-weight:700;margin-bottom:4px">{{ latestReport.focusTitle }}</div>
+            <div style="font-size:13px;color:#e6f0f5;line-height:1.5">{{ latestReport.focusDesc }}</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ resources }}" as="r" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #eee2d4;border-radius:14px;padding:14px">
+                <div style="width:42px;height:42px;border-radius:12px;background:{{ r.bg }};display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;color:{{ r.fg }};font-weight:700;font-family:'Source Serif Pro',Georgia,serif">{{ r.initial }}</div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:14px;font-weight:600;color:#1e2a35;margin-bottom:2px">{{ r.title }}</div>
+                  <div style="font-size:12px;color:#8a95a0">{{ r.meta }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{isProfile}}" hint-placeholder-val="{{ false }}">
+        <div style="padding:62px 20px 28px;animation:omFadeUp .4s ease both">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:24px">
+            <div style="width:56px;height:56px;border-radius:28px;background:#004b73;color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700;font-family:'Source Serif Pro',Georgia,serif">G</div>
+            <div>
+              <div style="font-size:18px;font-weight:700;color:#1e2a35">Guest</div>
+              <div style="font-size:13px;color:#8a95a0">Retirement plan benefit member</div>
+            </div>
+          </div>
+
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#8a95a0;margin:0 4px 8px">Account</div>
+          <div style="background:#fff;border:1px solid #eee2d4;border-radius:16px;overflow:hidden;margin-bottom:20px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3efe8;font-size:15px;color:#1e2a35">Notifications<span style="color:#c7c0b3">›</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3efe8;font-size:15px;color:#1e2a35">Privacy &amp; security<span style="color:#c7c0b3">›</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;font-size:15px;color:#1e2a35">Linked accounts<span style="color:#c7c0b3">›</span></div>
+          </div>
+
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:#8a95a0;margin:0 4px 8px">Support</div>
+          <div style="background:#fff;border:1px solid #eee2d4;border-radius:16px;overflow:hidden;margin-bottom:20px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #f3efe8;font-size:15px;color:#1e2a35">Help center<span style="color:#c7c0b3">›</span></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px;font-size:15px;color:#1e2a35">Message your coach<span style="color:#c7c0b3">›</span></div>
+          </div>
+
+          <div style="background:#fff;border:1px solid #eee2d4;border-radius:16px;overflow:hidden;margin-bottom:20px">
+            <div style="padding:14px 16px;font-size:15px;color:#e11d48;font-weight:600">Sign out</div>
+          </div>
+
+          <div style="font-size:12px;line-height:1.6;color:#8a95a0;padding:0 4px">This is a private tool. Your responses are visible only to you and are never shared without your permission.</div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{isWizard}}" hint-placeholder-val="{{ false }}">
+        <div style="min-height:100%;display:flex;flex-direction:column">
+          <div style="padding:62px 20px 14px;display:flex;align-items:center;gap:14px">
+            <button onClick="{{ wizardClose }}" style="width:32px;height:32px;border-radius:16px;background:#f3efe8;border:none;color:#5b6b76;font-size:16px;cursor:pointer">✕</button>
+            <div style="flex:1;height:6px;background:#eee2d4;border-radius:3px;overflow:hidden">
+              <div style="height:100%;background:#d56a2a;border-radius:3px;width:{{ wizardProgressPct }}%;transition:width .3s ease"></div>
+            </div>
+          </div>
+
+          <div style="flex:1;padding:8px 20px 24px">
+
+          <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:omFadeUp .35s ease both">
+              <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:24px;font-weight:700;color:#1e2a35;margin-bottom:8px">Let's check in</div>
+              <div style="font-size:14px;color:#5b6b76;line-height:1.6;margin-bottom:20px">Four short parts — the pressures you're facing, what's in your control, the friction in your systems, and a couple of open questions. Takes about five minutes.</div>
+              <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #eee2d4;border-radius:14px;padding:12px 14px">
+                  <div style="width:8px;height:8px;border-radius:4px;background:#e11d48;margin-top:6px;flex-shrink:0"></div>
+                  <div><div style="font-size:14px;font-weight:600;color:#1e2a35">Structural pressure</div><div style="font-size:12px;color:#8a95a0">External realities you're facing</div></div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #eee2d4;border-radius:14px;padding:12px 14px">
+                  <div style="width:8px;height:8px;border-radius:4px;background:#047857;margin-top:6px;flex-shrink:0"></div>
+                  <div><div style="font-size:14px;font-weight:600;color:#1e2a35">Sphere of control</div><div style="font-size:12px;color:#8a95a0">What's actionable versus systemic</div></div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #eee2d4;border-radius:14px;padding:12px 14px">
+                  <div style="width:8px;height:8px;border-radius:4px;background:#d97706;margin-top:6px;flex-shrink:0"></div>
+                  <div><div style="font-size:14px;font-weight:600;color:#1e2a35">Financial friction</div><div style="font-size:12px;color:#8a95a0">How manual your systems feel</div></div>
+                </div>
+              </div>
+              <div style="font-size:12px;color:#8a95a0;background:#eef3f6;padding:12px 14px;border-radius:12px;line-height:1.5">This stays private — visible only to you, never shared.</div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:omFadeUp .35s ease both">
+              <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:22px;font-weight:700;color:#1e2a35;margin-bottom:4px">Structural pressure</div>
+              <div style="font-size:13px;color:#5b6b76;margin-bottom:18px">Rate how much pressure each brings right now — 1 is none, 5 is severe.</div>
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <sc-for list="{{ spsList }}" as="cat" hint-placeholder-count="10">
+                  <div>
+                    <div style="font-size:14px;font-weight:600;color:#1e2a35;margin-bottom:8px">{{ cat.name }}</div>
+                    <div style="display:flex;gap:8px">
+                      <sc-for list="{{ cat.dots }}" as="d" hint-placeholder-count="5">
+                        <button onClick="{{ d.onClick }}" style="flex:1;height:38px;border-radius:10px;border:1px solid {{ d.border }};background:{{ d.bg }};cursor:pointer"></button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:omFadeUp .35s ease both">
+              <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:22px;font-weight:700;color:#1e2a35;margin-bottom:4px">Sphere of control</div>
+              <div style="font-size:13px;color:#5b6b76;margin-bottom:18px">Think of your top financial stressors right now. How many fall into each group?</div>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <div style="background:#e8f7f0;border:1px solid #b8e6cf;border-radius:16px;padding:16px">
+                  <div style="font-size:15px;font-weight:700;color:#04532f;margin-bottom:2px">Direct control</div>
+                  <div style="font-size:12px;color:#047857;margin-bottom:14px">Actionable immediately — e.g. cancel a subscription</div>
+                  <div style="display:flex;align-items:center;gap:16px">
+                    <button onClick="{{ casDirectDec }}" style="width:40px;height:40px;border-radius:20px;background:#fff;border:1px solid #b8e6cf;font-size:18px;color:#047857;cursor:pointer">−</button>
+                    <div style="flex:1;text-align:center;font-size:20px;font-weight:700;color:#04532f">{{ draft.cas.direct }}</div>
+                    <button onClick="{{ casDirectInc }}" style="width:40px;height:40px;border-radius:20px;background:#047857;border:none;font-size:18px;color:#fff;cursor:pointer">+</button>
+                  </div>
+                </div>
+                <div style="background:#fef3e2;border:1px solid #f6d9a4;border-radius:16px;padding:16px">
+                  <div style="font-size:15px;font-weight:700;color:#7c4a05;margin-bottom:2px">Indirect control</div>
+                  <div style="font-size:12px;color:#b45309;margin-bottom:14px">Influenceable over time — e.g. credit score, career path</div>
+                  <div style="display:flex;align-items:center;gap:16px">
+                    <button onClick="{{ casIndirectDec }}" style="width:40px;height:40px;border-radius:20px;background:#fff;border:1px solid #f6d9a4;font-size:18px;color:#b45309;cursor:pointer">−</button>
+                    <div style="flex:1;text-align:center;font-size:20px;font-weight:700;color:#7c4a05">{{ draft.cas.indirect }}</div>
+                    <button onClick="{{ casIndirectInc }}" style="width:40px;height:40px;border-radius:20px;background:#b45309;border:none;font-size:18px;color:#fff;cursor:pointer">+</button>
+                  </div>
+                </div>
+                <div style="background:#fdecee;border:1px solid #f6bfc6;border-radius:16px;padding:16px">
+                  <div style="font-size:15px;font-weight:700;color:#8a1330;margin-bottom:2px">Out of your control</div>
+                  <div style="font-size:12px;color:#c81e42;margin-bottom:14px">Systemic or external — e.g. inflation, interest rates</div>
+                  <div style="display:flex;align-items:center;gap:16px">
+                    <button onClick="{{ casOutDec }}" style="width:40px;height:40px;border-radius:20px;background:#fff;border:1px solid #f6bfc6;font-size:18px;color:#c81e42;cursor:pointer">−</button>
+                    <div style="flex:1;text-align:center;font-size:20px;font-weight:700;color:#8a1330">{{ draft.cas.outOfControl }}</div>
+                    <button onClick="{{ casOutInc }}" style="width:40px;height:40px;border-radius:20px;background:#c81e42;border:none;font-size:18px;color:#fff;cursor:pointer">+</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:omFadeUp .35s ease both">
+              <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:22px;font-weight:700;color:#1e2a35;margin-bottom:4px">Financial friction</div>
+              <div style="font-size:13px;color:#5b6b76;margin-bottom:18px">Rate the effort each takes — 1 is automated and easy, 5 is manual and hard.</div>
+              <div style="display:flex;flex-direction:column;gap:16px">
+                <sc-for list="{{ ffiList }}" as="cat" hint-placeholder-count="8">
+                  <div>
+                    <div style="font-size:14px;font-weight:600;color:#1e2a35;margin-bottom:8px">{{ cat.name }}</div>
+                    <div style="display:flex;gap:8px">
+                      <sc-for list="{{ cat.dots }}" as="d" hint-placeholder-count="5">
+                        <button onClick="{{ d.onClick }}" style="flex:1;height:38px;border-radius:10px;border:1px solid {{ d.border }};background:{{ d.bg }};cursor:pointer"></button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+            <div style="animation:omFadeUp .35s ease both">
+              <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:22px;font-weight:700;color:#1e2a35;margin-bottom:4px">In your own words</div>
+              <div style="font-size:13px;color:#5b6b76;margin-bottom:18px">Optional, but it helps your coach understand the full picture.</div>
+              <div style="display:flex;flex-direction:column;gap:14px">
+                <sc-for list="{{ qualList }}" as="q" hint-placeholder-count="3">
+                  <div style="background:#fff;border:1px solid #eee2d4;border-radius:14px;padding:14px">
+                    <div style="font-size:13px;font-weight:600;color:#1e2a35;margin-bottom:10px">{{ q.label }}</div>
+                    <textarea value="{{ q.value }}" onChange="{{ q.onChange }}" placeholder="Type here..." style="width:100%;box-sizing:border-box;border:1px solid #eee2d4;border-radius:10px;padding:10px;font-size:14px;font-family:inherit;resize:none;height:80px;outline:none"></textarea>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-if>
+
+          </div>
+
+          <div style="display:flex;gap:10px;padding:14px 20px 26px;border-top:1px solid #eee2d4">
+            <sc-if value="{{ showWizardBack }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ wizardBack }}" style="flex:1;padding:14px;border-radius:12px;border:1px solid #eee2d4;background:#fff;color:#5b6b76;font-size:14px;font-weight:600;cursor:pointer">Back</button>
+            </sc-if>
+            <button onClick="{{ wizardNext }}" style="flex:2;padding:14px;border-radius:12px;border:none;background:#d56a2a;color:#fff;font-size:14px;font-weight:700;cursor:pointer">{{ wizardNextLabel }}</button>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{isResults}}" hint-placeholder-val="{{ false }}">
+        <div style="padding:62px 20px 28px;animation:omFadeUp .4s ease both">
+          <button onClick="{{ backFromResults }}" style="background:none;border:none;color:#004b73;font-size:14px;font-weight:600;padding:0;margin-bottom:14px;cursor:pointer">← Back</button>
+
+          <div style="text-align:center;margin-bottom:20px">
+            <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:24px;font-weight:700;color:#1e2a35">Your capacity report</div>
+            <div style="font-size:13px;color:#8a95a0;margin-top:2px">{{ report.dateStr }}</div>
+          </div>
+
+          <div style="background:linear-gradient(135deg,#004b73,#002f4a);border-radius:22px;padding:24px 20px;color:#fff;text-align:center;margin-bottom:20px">
+            <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#bfe0ee;margin-bottom:14px">Financial Capacity Index</div>
+            <div style="font-size:48px;font-weight:800;line-height:1">{{ report.fciRounded }}<span style="font-size:18px;color:#bfe0ee">/100</span></div>
+            <div style="display:inline-block;background:rgba(255,255,255,0.16);padding:5px 14px;border-radius:100px;font-size:12px;font-weight:600;margin-top:10px">{{ report.label }}</div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px">
+            <div style="background:#fff;border:1px solid #eee2d4;border-radius:18px;padding:16px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px">
+                <div style="font-size:15px;font-weight:700;color:#1e2a35">Structural pressure</div>
+                <div style="font-size:12px;font-weight:700;color:#e11d48;background:#fdecee;padding:2px 8px;border-radius:8px">{{ report.spsTotal }}/50</div>
+              </div>
+              <div style="font-size:12px;color:#8a95a0;margin-bottom:10px">Normalized {{ report.spsNormFixed }}/100</div>
+              <div style="height:8px;background:#f3efe8;border-radius:4px;margin-bottom:12px"><div style="height:100%;background:#e11d48;border-radius:4px;width:{{ report.spsBarPct }}%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#5b6b76;margin-bottom:4px"><span>{{ report.topSps0Name }}</span><span style="font-weight:700;color:#1e2a35">{{ report.topSps0Val }}/5</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#5b6b76"><span>{{ report.topSps1Name }}</span><span style="font-weight:700;color:#1e2a35">{{ report.topSps1Val }}/5</span></div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #eee2d4;border-radius:18px;padding:16px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px">
+                <div style="font-size:15px;font-weight:700;color:#1e2a35">Financial friction</div>
+                <div style="font-size:12px;font-weight:700;color:#b45309;background:#fef3e2;padding:2px 8px;border-radius:8px">{{ report.ffiTotal }}/40</div>
+              </div>
+              <div style="font-size:12px;color:#8a95a0;margin-bottom:10px">Normalized {{ report.ffiNormFixed }}/100</div>
+              <div style="height:8px;background:#f3efe8;border-radius:4px;margin-bottom:12px"><div style="height:100%;background:#d97706;border-radius:4px;width:{{ report.ffiBarPct }}%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#5b6b76;margin-bottom:4px"><span>{{ report.topFfi0Name }}</span><span style="font-weight:700;color:#1e2a35">{{ report.topFfi0Val }}/5</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#5b6b76"><span>{{ report.topFfi1Name }}</span><span style="font-weight:700;color:#1e2a35">{{ report.topFfi1Val }}/5</span></div>
+            </div>
+
+            <div style="background:#fff;border:1px solid #eee2d4;border-radius:18px;padding:16px">
+              <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2px">
+                <div style="font-size:15px;font-weight:700;color:#1e2a35">Control alignment</div>
+                <div style="font-size:12px;font-weight:700;color:#047857;background:#e8f7f0;padding:2px 8px;border-radius:8px">{{ report.casScoreRounded }}%</div>
+              </div>
+              <div style="font-size:12px;color:#8a95a0;margin-bottom:10px">Stressors in direct/indirect control</div>
+              <div style="height:8px;background:#f3efe8;border-radius:4px;margin-bottom:12px"><div style="height:100%;background:#047857;border-radius:4px;width:{{ report.casBarPct }}%"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#5b6b76;margin-bottom:4px"><span>Actionable</span><span style="font-weight:700;color:#1e2a35">{{ report.actionable }}</span></div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;color:#5b6b76"><span>Systemic / external</span><span style="font-weight:700;color:#1e2a35">{{ report.systemic }}</span></div>
+            </div>
+          </div>
+
+          <sc-if value="{{ report.hasQual }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#fff;border:1px solid #eee2d4;border-radius:18px;padding:16px;margin-bottom:20px">
+            <div style="font-size:15px;font-weight:700;color:#1e2a35;margin-bottom:12px">In their own words</div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-if value="{{ report.hasQual0 }}" hint-placeholder-val="{{ false }}">
+                <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#8a95a0;margin-bottom:3px">{{ report.qual0Label }}</div><div style="font-size:14px;color:#3a4650;font-style:italic;border-left:2px solid #eee2d4;padding-left:10px">{{ report.qual0Value }}</div></div>
+              </sc-if>
+              <sc-if value="{{ report.hasQual1 }}" hint-placeholder-val="{{ false }}">
+                <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#8a95a0;margin-bottom:3px">{{ report.qual1Label }}</div><div style="font-size:14px;color:#3a4650;font-style:italic;border-left:2px solid #eee2d4;padding-left:10px">{{ report.qual1Value }}</div></div>
+              </sc-if>
+              <sc-if value="{{ report.hasQual2 }}" hint-placeholder-val="{{ false }}">
+                <div><div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#8a95a0;margin-bottom:3px">{{ report.qual2Label }}</div><div style="font-size:14px;color:#3a4650;font-style:italic;border-left:2px solid #eee2d4;padding-left:10px">{{ report.qual2Value }}</div></div>
+              </sc-if>
+            </div>
+          </div>
+          </sc-if>
+
+          <div style="background:#f7f4ee;border:1px solid #eee2d4;border-radius:18px;padding:18px;margin-bottom:20px">
+            <div style="font-size:15px;font-weight:700;color:#1e2a35;margin-bottom:10px">What this means</div>
+            <div style="font-size:14px;color:#3a4650;line-height:1.6;margin-bottom:10px">{{ report.narrativeIntro }}</div>
+            <div style="font-size:14px;color:#3a4650;line-height:1.6">{{ report.narrativeDrivers }}</div>
+          </div>
+
+          <button onClick="{{ goPlan }}" style="width:100%;background:#004b73;color:#fff;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:700;cursor:pointer">View your action plan</button>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{isPlan}}" hint-placeholder-val="{{ false }}">
+        <div style="padding:62px 20px 28px;animation:omFadeUp .4s ease both">
+          <button onClick="{{ backFromPlan }}" style="background:none;border:none;color:#004b73;font-size:14px;font-weight:600;padding:0;margin-bottom:14px;cursor:pointer">← Back</button>
+
+          <div style="font-family:'Source Serif Pro',Georgia,serif;font-size:24px;font-weight:700;color:#1e2a35;margin-bottom:4px">Your action plan</div>
+          <div style="font-size:13px;color:#8a95a0;margin-bottom:6px">Small, specific steps based on your report.</div>
+          <div style="font-size:13px;color:#047857;font-weight:600;margin-bottom:20px">{{ checkedCount }} of {{ planItems.length }} done</div>
+
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ planItems }}" as="item" hint-placeholder-count="3">
+              <button onClick="{{ item.onToggle }}" style="display:flex;gap:12px;align-items:flex-start;text-align:left;background:#fff;border:1px solid #eee2d4;border-radius:16px;padding:16px;cursor:pointer">
+                <div style="width:24px;height:24px;border-radius:12px;border:2px solid {{ item.checkColor }};background:{{ item.checkBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;color:#fff;font-size:13px;font-weight:700">{{ item.checkMark }}</div>
+                <div>
+                  <div style="font-size:15px;font-weight:700;color:#1e2a35;margin-bottom:3px;{{ item.titleStyle }}">{{ item.title }}</div>
+                  <div style="font-size:13px;color:#5b6b76;line-height:1.5">{{ item.desc }}</div>
+                </div>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+      </div>
+
+      <sc-if value="{{ showTabBar }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;border-top:1px solid #eee2d4;background:#fff;padding:10px 8px 24px">
+        <button onClick="{{ goHome }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:{{ homeColor }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 11L12 4l8 7M6 10v9a1 1 0 001 1h4v-6h2v6h4a1 1 0 001-1v-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:11px;font-weight:600">Home</span>
+        </button>
+        <button onClick="{{ goProgress }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:{{ progressColor }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 20V12M12 20V6M19 20v-9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:11px;font-weight:600">Progress</span>
+        </button>
+        <button onClick="{{ goLearn }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:{{ learnColor }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 5.5A2.5 2.5 0 016.5 3H20v15H6.5A2.5 2.5 0 004 20.5v0A2.5 2.5 0 016.5 18H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span style="font-size:11px;font-weight:600">Learn</span>
+        </button>
+        <button onClick="{{ goProfile }}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:{{ profileColor }}">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1-3.6 4-5.5 7.5-5.5s6.5 1.9 7.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          <span style="font-size:11px;font-weight:600">Profile</span>
+        </button>
+      </div>
+      </sc-if>
+
+    </div>
+  </x-import>
+  <div style="font-size:12px;color:#a39d8f;max-width:340px;text-align:center">Prototype — tap tabs and buttons to navigate.</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  spsCategories = ["Income Stability & Predictability","Healthcare Exposure & Costs","Housing Costs & Security","Debt Burden & Servicing","Dependent Care Obligations","Emergency Liquidity","Inflation & Cost of Living Impact","Employment Security","Legal or Tax Pressures","Transportation Costs & Reliability"];
+  ffiCategories = ["Manual Bill Payments","Fragmented Accounts","Complex Budgeting Systems","Unclear Investment Fees","Difficulty Accessing Financial Data","Time Spent Reconciling Transactions","Friction in Moving Money (Transfers)","Lack of Automated Savings"];
+  qualPrompts = [
+    { id: 'overwhelming', label: "What feels most overwhelming?" },
+    { id: 'confident', label: "What do you feel confident about?" },
+    { id: 'change', label: "What's one thing you'd change?" }
+  ];
+  weights = { sps: 0.4, cas: 0.35, ffi: 0.25 };
+
+  state = {
+    tab: 'home',
+    screen: null,
+    wizardStep: 0,
+    reportIndex: 0,
+    checkedActions: {},
+    draft: this.defaultDraft(),
+    history: [
+      { id: 3, date: '2026-07-29', sps: [3,3,2,3,1,3,3,2,2,2], ffi: [2,3,2,3,2,2,2,3], cas: { direct: 2, indirect: 2, outOfControl: 1 },
+        qualitative: { overwhelming: "Keeping track of my 401(k) contributions alongside our monthly bills — it feels like a lot to manage at once.", confident: "I'm on top of my day-to-day budgeting and know where my paycheck is going.", change: "I'd love to automate more of my savings so I'm not thinking about it every month." } },
+      { id: 2, date: '2026-06-22', sps: [3,4,3,3,2,3,3,3,2,3], ffi: [3,3,3,3,2,3,3,3], cas: { direct: 1, indirect: 2, outOfControl: 2 },
+        qualitative: { overwhelming: '', confident: '', change: '' } },
+      { id: 1, date: '2026-05-18', sps: [4,4,4,3,2,4,4,3,3,3], ffi: [4,4,3,4,3,4,3,3], cas: { direct: 1, indirect: 1, outOfControl: 3 },
+        qualitative: { overwhelming: '', confident: '', change: '' } }
+    ]
+  };
+
+  defaultDraft() {
+    return { sps: Array(10).fill(3), ffi: Array(8).fill(3), cas: { direct: 0, indirect: 0, outOfControl: 0 }, qualitative: { overwhelming: '', confident: '', change: '' } };
+  }
+
+  computeResults(entry) {
+    const { sps, ffi, cas } = entry;
+    const spsTotal = sps.reduce((a, b) => a + b, 0);
+    const spsNorm = ((spsTotal - 10) / 40) * 100;
+    const ffiTotal = ffi.reduce((a, b) => a + b, 0);
+    const ffiNorm = ((ffiTotal - 8) / 32) * 100;
+    const totalStressors = cas.direct + cas.indirect + cas.outOfControl;
+    const casScore = totalStressors > 0 ? ((cas.direct + cas.indirect) / totalStressors) * 100 : 50;
+    const fci = (100 - spsNorm) * this.weights.sps + casScore * this.weights.cas + (100 - ffiNorm) * this.weights.ffi;
+    const topSps = sps.map((val, idx) => ({ name: this.spsCategories[idx], val })).sort((a, b) => b.val - a.val).slice(0, 2);
+    const topFfi = ffi.map((val, idx) => ({ name: this.ffiCategories[idx], val })).sort((a, b) => b.val - a.val).slice(0, 2);
+    return { spsTotal, spsNorm, ffiTotal, ffiNorm, casScore, fci, topSps, topFfi };
+  }
+
+  formatDate(iso) {
+    try { return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }); } catch { return iso; }
+  }
+
+  fciLabel(fci) {
+    return fci >= 70 ? 'Strong capacity' : fci >= 40 ? 'Steady capacity' : 'Building capacity';
+  }
+
+  flattenReport(entry) {
+    const r = this.computeResults(entry);
+    const clamp = v => Math.max(0, Math.min(100, v));
+    const q = entry.qualitative || {};
+    const labels = { overwhelming: "Feels most overwhelming", confident: "Feels confident about", change: "Would change" };
+    const narrativeIntro = r.casScore < 50
+      ? "A good portion of the pressure right now is coming from things outside direct control — that's exactly what makes finances feel heavier than the numbers alone suggest."
+      : "There's real agency here — many of the stressors on this list can be influenced or managed over time.";
+    const narrativeDrivers = `The biggest structural pressures right now are ${r.topSps[0].name.toLowerCase()} and ${r.topSps[1].name.toLowerCase()}. The most friction shows up in ${r.topFfi[0].name.toLowerCase()}.`;
+    return {
+      fci: r.fci, fciRounded: Math.round(r.fci), fciBarPct: clamp(r.fci),
+      label: this.fciLabel(r.fci), dateStr: this.formatDate(entry.date),
+      spsTotal: r.spsTotal, spsNormFixed: r.spsNorm.toFixed(1), spsBarPct: clamp(r.spsNorm),
+      ffiTotal: r.ffiTotal, ffiNormFixed: r.ffiNorm.toFixed(1), ffiBarPct: clamp(r.ffiNorm),
+      casScoreRounded: Math.round(r.casScore), casBarPct: clamp(r.casScore),
+      actionable: entry.cas.direct + entry.cas.indirect, systemic: entry.cas.outOfControl,
+      topSps0Name: r.topSps[0].name, topSps0Val: r.topSps[0].val, topSps1Name: r.topSps[1].name, topSps1Val: r.topSps[1].val,
+      topFfi0Name: r.topFfi[0].name, topFfi0Val: r.topFfi[0].val, topFfi1Name: r.topFfi[1].name, topFfi1Val: r.topFfi[1].val,
+      narrativeIntro, narrativeDrivers,
+      hasQual: !!(q.overwhelming || q.confident || q.change),
+      hasQual0: !!q.overwhelming, qual0Label: labels.overwhelming, qual0Value: q.overwhelming,
+      hasQual1: !!q.confident, qual1Label: labels.confident, qual1Value: q.confident,
+      hasQual2: !!q.change, qual2Label: labels.change, qual2Value: q.change,
+      focusTitle: `Ease up on ${r.topFfi[0].name.toLowerCase()}`,
+      focusDesc: `This is where the most manual effort is going right now. Automating or consolidating it would free up real bandwidth.`,
+      casScoreRaw: r.casScore, topSps0NameRaw: r.topSps[0].name, casDirect: entry.cas.direct, casOutOfControl: entry.cas.outOfControl
+    };
+  }
+
+  planItemsFor(report) {
+    const items = [
+      { id: 'friction', title: `Automate ${report.topFfi0Name}`, desc: "Set up autopay, consolidate accounts, or delegate this task — one less thing on your plate this week." },
+      { id: 'pressure', title: `Take one step on ${report.topSps0Name}`, desc: "Pick one action within your influence this month — a call, a policy review, or the start of a plan." }
+    ];
+    if (report.casScoreRaw < 50) {
+      items.push({ id: 'agency', title: "Focus on what's yours to control", desc: `Put your energy toward the ${report.casDirect} item(s) you can act on directly. Set the ${report.casOutOfControl} systemic stressor(s) aside for now.` });
+    } else {
+      items.push({ id: 'momentum', title: "Keep the momentum going", desc: "You're managing more of this than it might feel like. Revisit this assessment in a month to see the shift." });
+    }
+    return items;
+  }
+
+  setDraftValue(group, idx, val) {
+    this.setState(s => ({ draft: { ...s.draft, [group]: s.draft[group].map((x, i) => i === idx ? val : x) } }));
+  }
+  bumpCas(field, delta) {
+    this.setState(s => ({ draft: { ...s.draft, cas: { ...s.draft.cas, [field]: Math.max(0, s.draft.cas[field] + delta) } } }));
+  }
+  updateQual(id, val) {
+    this.setState(s => ({ draft: { ...s.draft, qualitative: { ...s.draft.qualitative, [id]: val } } }));
+  }
+  buildRatingList(categories, values, group) {
+    return categories.map((name, idx) => ({
+      idx, name,
+      dots: [1,2,3,4,5].map(v => {
+        const filled = v <= values[idx];
+        return { v, filled, border: filled ? '#004b73' : '#e2ddd0', bg: filled ? '#004b73' : '#fff', onClick: () => this.setDraftValue(group, idx, v) };
+      })
+    }));
+  }
+
+  renderVals() {
+    const { tab, screen, wizardStep, draft, history, reportIndex, checkedActions } = this.state;
+    const showingOverlay = screen !== null;
+    const latestReport = this.flattenReport(history[0]);
+    const report = this.flattenReport(history[reportIndex] || history[0]);
+    const planItems = this.planItemsFor(report).map(it => {
+      const checked = !!checkedActions[it.id];
+      return { ...it, onToggle: () => this.setState(s => ({ checkedActions: { ...s.checkedActions, [it.id]: !s.checkedActions[it.id] } })),
+        checkColor: checked ? '#047857' : '#d9d3c4', checkBg: checked ? '#047857' : 'transparent', checkMark: checked ? '✓' : '',
+        titleStyle: checked ? 'text-decoration:line-through;color:#94a3ab' : '' };
+    });
+    const checkedCount = planItems.filter(i => !!checkedActions[i.id]).length;
+
+    const chartColors = ['#c9c2b4', '#8a95a0', '#004b73'];
+    const chartList = [...history].slice().reverse().map((h, i) => {
+      const r = this.flattenReport(h);
+      return { fci: r.fciRounded, barHeight: Math.max(6, r.fciRounded) + 'px', barColor: chartColors[i] || '#004b73', shortDate: this.formatDate(h.date).replace(',', '') };
+    }).map(c => ({ ...c, barHeight: (Math.max(6, parseInt(c.barHeight)) / 100 * 92) + 'px' }));
+
+    const historyList = history.map((h, i) => {
+      const r = this.flattenReport(h);
+      return { fci: r.fciRounded, label: r.label, dateStr: r.dateStr, onTap: () => this.setState({ reportIndex: i, screen: 'results' }) };
+    });
+
+    const resources = [
+      { initial: 'A', bg: '#eef3f6', fg: '#004b73', title: 'Automate your bills', meta: 'Guide · 4 min' },
+      { initial: 'C', bg: '#fdf0e9', fg: '#d56a2a', title: 'Consolidate old retirement accounts', meta: 'Guide · 6 min' },
+      { initial: 'E', bg: '#e8f7f0', fg: '#047857', title: 'Build your emergency cushion', meta: 'Guide · 5 min' },
+      { initial: 'T', bg: '#fef3e2', fg: '#b45309', title: 'Talk to a coach', meta: 'Coaching · Book a session' }
+    ];
+
+    const activeColor = '#004b73', inactiveColor = '#a39d8f';
+    const stepTotal = 4;
+    const spsList = this.buildRatingList(this.spsCategories, draft.sps, 'sps');
+    const ffiList = this.buildRatingList(this.ffiCategories, draft.ffi, 'ffi');
+    const qualList = this.qualPrompts.map(p => ({ id: p.id, label: p.label, value: draft.qualitative[p.id], onChange: (e) => this.updateQual(p.id, e.target.value) }));
+
+    return {
+      isHome: !showingOverlay && tab === 'home',
+      isProgress: !showingOverlay && tab === 'progress',
+      isLearn: !showingOverlay && tab === 'learn',
+      isProfile: !showingOverlay && tab === 'profile',
+      isWizard: screen === 'wizard',
+      isResults: screen === 'results',
+      isPlan: screen === 'plan',
+      showTabBar: !showingOverlay,
+      latestReport, report, planItems, checkedCount,
+      chartList, historyList, resources,
+      progressCopy: history.length > 1 ? "Your capacity has been trending up over the last few months." : "Complete another assessment to see your trend.",
+      homeColor: tab === 'home' && !showingOverlay ? activeColor : inactiveColor,
+      progressColor: tab === 'progress' && !showingOverlay ? activeColor : inactiveColor,
+      learnColor: tab === 'learn' && !showingOverlay ? activeColor : inactiveColor,
+      profileColor: tab === 'profile' && !showingOverlay ? activeColor : inactiveColor,
+      goHome: () => this.setState({ tab: 'home', screen: null }),
+      goProgress: () => this.setState({ tab: 'progress', screen: null }),
+      goLearn: () => this.setState({ tab: 'learn', screen: null }),
+      goProfile: () => this.setState({ tab: 'profile', screen: null }),
+      viewLatestReport: () => this.setState({ reportIndex: 0, screen: 'results' }),
+      goPlan: () => this.setState({ screen: 'plan' }),
+      backFromResults: () => this.setState({ screen: null }),
+      backFromPlan: () => this.setState({ screen: 'results' }),
+      startAssessment: () => this.setState({ screen: 'wizard', wizardStep: 0, draft: this.defaultDraft() }),
+      wizardClose: () => this.setState({ screen: null }),
+      wizardProgressPct: (wizardStep / stepTotal) * 100,
+      isStep0: wizardStep === 0, isStep1: wizardStep === 1, isStep2: wizardStep === 2, isStep3: wizardStep === 3, isStep4: wizardStep === 4,
+      showWizardBack: wizardStep > 0,
+      wizardNextLabel: wizardStep === 0 ? 'Start assessment' : wizardStep === 4 ? 'See my results' : 'Continue',
+      wizardBack: () => this.setState(s => ({ wizardStep: Math.max(0, s.wizardStep - 1) })),
+      wizardNext: () => {
+        if (wizardStep < stepTotal) { this.setState(s => ({ wizardStep: s.wizardStep + 1 })); return; }
+        const record = { id: Date.now(), date: new Date().toISOString(), sps: [...draft.sps], ffi: [...draft.ffi], cas: { ...draft.cas }, qualitative: { ...draft.qualitative } };
+        this.setState(s => ({ history: [record, ...s.history], reportIndex: 0, screen: 'results', tab: 'home' }));
+      },
+      draft, spsList, ffiList, qualList,
+      casDirectInc: () => this.bumpCas('direct', 1), casDirectDec: () => this.bumpCas('direct', -1),
+      casIndirectInc: () => this.bumpCas('indirect', 1), casIndirectDec: () => this.bumpCas('indirect', -1),
+      casOutInc: () => this.bumpCas('outOfControl', 1), casOutDec: () => this.bumpCas('outOfControl', -1)
+    };
+  }
+}
+</script>
+</body>
+</html>
