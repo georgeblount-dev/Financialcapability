@@ -20,7 +20,7 @@ function Row({ children, last }) {
   );
 }
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ state }) {
   return (
     <ScreenPad>
       <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 24 }}>
@@ -45,7 +45,23 @@ export default function ProfileScreen() {
       </div>
 
       <div style={{ background: '#fff', border: `1px solid ${colors.border}`, borderRadius: 16, overflow: 'hidden', marginBottom: 20 }}>
-        <div style={{ padding: '14px 16px', fontSize: 15, color: colors.red, fontWeight: 600 }}>Sign out</div>
+        <button
+          onClick={state.signOut}
+          style={{
+            display: 'block',
+            width: '100%',
+            textAlign: 'left',
+            padding: '14px 16px',
+            fontSize: 15,
+            color: colors.red,
+            fontWeight: 600,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+        >
+          Sign out
+        </button>
       </div>
 
       <div style={{ fontSize: 12, lineHeight: 1.6, color: colors.muted, padding: '0 4px' }}>

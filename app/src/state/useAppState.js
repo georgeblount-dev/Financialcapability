@@ -114,6 +114,15 @@ export function useAppState() {
     setDraft(defaultDraft());
   };
   const wizardClose = () => setScreen(null);
+  const signOut = () => {
+    setHistory(seedHistory);
+    setCheckedActions({});
+    setDraft(defaultDraft());
+    setReportIndex(0);
+    setWizardStep(0);
+    setScreen(null);
+    setTab('home');
+  };
   const wizardBack = () => setWizardStep((s) => Math.max(0, s - 1));
   const wizardNext = () => {
     if (wizardStep < STEP_TOTAL) {
@@ -169,6 +178,7 @@ export function useAppState() {
     backFromPlan,
     startAssessment,
     wizardClose,
+    signOut,
 
     wizardStep,
     wizardProgressPct: (wizardStep / STEP_TOTAL) * 100,
